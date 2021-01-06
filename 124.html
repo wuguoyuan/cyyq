@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>广西财经学院疫情管理系统</title>
+    <link rel="stylesheet" href="./js/bootstrap-3.3.7/css/bootstrap.min.css">
+    <script src="./js/bootstrap-3.3.7/js/jquery.min.js"></script>
+    <script src="./js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="./js/mobiscroll/jquery.js"></script>
+</head>
+<body>
+  <script type="text/javascript">
+      Date.prototype.format = function(fmt) {
+        var o = {
+          "M+": this.getMonth() + 1,                   // 月份 
+          "d+": this.getDate(),                        // 日 
+          "h+": this.getHours(),                       // 小时 
+          "m+": this.getMinutes(),                     // 分 
+          "s+": this.getSeconds(),                     // 秒 
+          "q+": Math.floor((this.getMonth() + 3) / 3), // 季度 
+          "S": this.getMilliseconds()                  // 毫秒 
+        };
+        if (/(y+)/.test(fmt)) {
+          fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        }
+        for ( var k in o) {
+          if (new RegExp("(" + k + ")").test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+          }
+        }
+        return fmt;
+      }
+      
+      $(document).ready(function() {
+        $("input[name='company']:radio").change(showCompany);
+        $("input[name='door']:radio").change(showDoor);
+        $("input[name='sts']:radio").change(showDoor);
+        
+        showCompany();
+        showDoor();
+      });
+      
+      function getItem(key, defaultVal) {
+        var value = sessionStorage.getItem(key) || defaultVal;
+        return value;
+      }
+      
+      function clearInput(obj) {
+        $(obj).prev("input").val("");
+      }
+      
+      // 显示公司
+      function showCompany() {
+        var company = $("input[name='company']:radio:checked").parent("label").text();
+        $("#company").val(company);
+      }
+      
+      // 显示位置
+      function showDoor() {
+        var door = $("input[name='door']:radio:checked").val();
+        var sts = $("input[name='sts']:radio:checked").parent("label").text();
+        door = door.replace("${sts}", sts);
+        $("#door").val(door);
+      }
+      
+      // 提交
+      function commit() {
+        sessionStorage.setItem("name", $("#name").val());
+        sessionStorage.setItem("company", $("#company").val());
+        sessionStorage.setItem("door", $("#door").val());
+        location.href = "./123.html";
+      }
+    </script>
+  <div class="container">
+    <br/>
+    <div class="text-center">
+        <img src="./images/gx_03.png"/>
+    </div>
+    <br />
+    <h1 class="text-center"></h1>
+    <br />
+    <form id="dataForm" action="http://yq.gxufe.edu.cn/web/one">
+      <div class="form-group">
+        <div class="text-center"></div>
+      </div>
+      <div class="form-group myfont" style="font-size: 14px; color: #984a48;">
+        <div class="input-group">
+          <input id="name" type="text" class="form-control" placeholder="请输入姓名" value="吴国源" />
+          <div class="input-group-addon" onclick="clearInput(this);">X</div>
+        </div>
+        <br>
+        
+        <div class="input-group">
+          <input id="company" type="text" class="form-control" placeholder="请输入单位" value="" />
+          <div class="input-group-addon" onclick="clearInput(this);">X</div>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="company" value="" checked="checked">明秀校区20栋409信息与统计学院甘宇健</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="company" value="">广西天海信息科技有限公司</label>
+        </div>
+        <br>
+        
+        <div class="input-group">
+          <input id="door" type="text" class="form-control" placeholder="请输入位置" />
+          <div class="input-group-addon" onclick="clearInput(this);">X</div>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="door" value="明秀校区东门（${sts}）登记" checked="checked">明秀校区东门</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="door" value="明秀西门（${sts}）登记">明秀西门</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="door" value="${sts}明秀校区北门登记">明秀校区北门</label>
+        </div>
+        <label class="radio-inline"><input type="radio" name="sts" value="" checked="checked">入</label>
+        <label class="radio-inline"><input type="radio" name="sts" value="">出</label>
+        <br>
+        <br>
+        <button type="button" class="btn btn-default center-block" onclick="commit();">确定</button>
+      </div>
+      <p class="text-center">Copyright © 2020 广西财经学院 All Rights Reserved.</p>
+    </form>
+  </div>
+</body>
+</html>

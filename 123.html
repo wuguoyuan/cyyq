@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>广西财经学院疫情管理系统</title>
+    <link rel="stylesheet" href="./js/bootstrap-3.3.7/css/bootstrap.min.css">
+    <script src="./js/bootstrap-3.3.7/js/jquery.min.js"></script>
+    <script src="./js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="./js/mobiscroll/jquery.js"></script>
+</head>
+<body>
+<script language="javascript">
+  Date.prototype.format = function(fmt) {
+    var o = {
+      "M+": this.getMonth() + 1,                   // 月份 
+      "d+": this.getDate(),                        // 日 
+      "h+": this.getHours(),                       // 小时 
+      "m+": this.getMinutes(),                     // 分 
+      "s+": this.getSeconds(),                     // 秒 
+      "q+": Math.floor((this.getMonth() + 3) / 3), // 季度 
+      "S": this.getMilliseconds()                  // 毫秒 
+    };
+    if (/(y+)/.test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+    for ( var k in o) {
+      if (new RegExp("(" + k + ")").test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+      }
+    }
+    return fmt;
+  }
+  
+  function getItem(key, defaultVal) {
+    var value = sessionStorage.getItem(key) || defaultVal;
+    return value;
+  }
+  
+  $(document).ready(function() {
+    $("#time").text(new Date().format("yyyy-MM-dd hh:mm:ss"));
+    var name = getItem("name", "吴国源");
+    var company = getItem("company", "明秀校区20栋409信息与统计学院甘宇健");
+    var door = getItem("door", "明秀校区东门（入）登记");
+    $("#name").text(name);
+    $("#company").text(company);
+    $("#door").text(door);
+  });
+</script>
+<div class="container">
+    <br/>
+    <div class="text-center">
+        <img src="./images/gx_03.png"/>
+    </div>
+    <br />
+    <h1 class="text-center"><span id="door"></span></h1>
+    <br />
+    <div>
+        <p><h3 class="text-center text-danger"></h3></p>
+        <p><h3 class="text-center text-danger">姓名：<span id="name"></span>，欢迎您！</h3></p>
+        <p><h3 class="text-center text-danger">单位信息：<span id="company"></span></h3></p>
+        <p><h4 class="text-center text-danger"><span id="time"></span></h4></p>
+    </div>
+    <br />
+    <br />
+    <p class="text-center">Copyright © 2020 广西财经学院 All Rights Reserved.</p>
+</div>
+</body>
+</html>
